@@ -6,6 +6,7 @@ use std::borrow::Borrow;
 use std::marker::PhantomData;
 
 #[derive(Debug, Clone, Copy)]
+/// A database table column.
 pub struct Column<T, U, ST> {
     table: T,
     name: U,

@@ -34,7 +34,7 @@ fn main() {
     // Print the results.
     // The `users` are type `std::result::Result<std::vec::Vec<(i32, std::string::String)>, diesel::result::Error>`
     let users = users.unwrap();
-    for user in users {
+    for (user_id, user_name) in users {
         let (x, y) = user;
         println!("user id:{} name:{}", x, y);
     }

@@ -35,7 +35,7 @@
 //! use diesel::sqlite::SqliteConnection;
 //! use diesel_dynamic_schema::table;
 //! 
-//! let conn = SqliteConnection::establish(":memory:").unwrap();
+//! # let conn = SqliteConnection::establish(":memory:").unwrap();
 //!
 //! // Create some example data by using typical SQL statements.
 //! sql_query("CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL)").execute(&conn).unwrap();

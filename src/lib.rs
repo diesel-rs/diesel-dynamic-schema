@@ -26,22 +26,20 @@
 //! Note that you must always provide an explicit select clause 
 //! when using this crate.
 //! 
-//! Runnable example:
-//!
 //! ```rust
-//! extern crate diesel;
-//! extern crate diesel_dynamic_schema;
-//! use diesel::*;
-//! use diesel::sql_types::{Integer, Text};
-//! use diesel::sqlite::SqliteConnection;
-//! use diesel_dynamic_schema::table;
-//! 
+//! # extern crate diesel;
+//! # extern crate diesel_dynamic_schema;
+//! # use diesel::*;
+//! # use diesel::sql_types::{Integer, Text};
+//! # use diesel::sqlite::SqliteConnection;
+//! # use diesel_dynamic_schema::table;
+//! #
 //! # let conn = SqliteConnection::establish(":memory:").unwrap();
-//!
-//! // Create some example data by using typical SQL statements.
-//! sql_query("CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL)").execute(&conn).unwrap();
+//! #
+//! # // Create some example data by using typical SQL statements.
+//! # sql_query("CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL)").execute(&conn).unwrap();
 //! # sql_query("INSERT INTO users (name) VALUES ('Sean'), ('Tess')").execute(&conn).unwrap();
-//!
+//! #
 //! // Use diesel-dynamic-schema to create a table and columns.
 //! let users = table("users");
 //! let id = users.column::<Integer, _>("id");
@@ -60,6 +58,8 @@
 //! }
 //! ```
 //! 
+//! See the `/examples` directory for runnable code examples.
+//!
 //! ## Getting help
 //!
 //! If you run into problems, Diesel has a very active Gitter room.

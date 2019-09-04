@@ -42,10 +42,8 @@
 //! sql_query("CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL)").execute(&conn).unwrap();
 //! # sql_query("INSERT INTO users (name) VALUES ('Sean'), ('Tess')").execute(&conn).unwrap();
 //!
-//! // Use diesel-dynamic-schema to create a table.
+//! // Use diesel-dynamic-schema to create a table and columns.
 //! let users = table("users");
-//!
-//! // Use diesel-dynamic-schema to create some table columns.
 //! let id = users.column::<Integer, _>("id");
 //! let name = users.column::<Text, _>("name");
 //! 

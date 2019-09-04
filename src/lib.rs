@@ -22,8 +22,9 @@
 //! 
 //! # Getting Started
 //! 
-//! The main function used by this crate is `table`. Note that you must always
-//! provide an explicit select clause when using this crate.
+//! The `table` function is used to create a new Diesel table.
+//! Note that you must always provide an explicit select clause 
+//! when using this crate.
 //! 
 //! Runnable example:
 //!

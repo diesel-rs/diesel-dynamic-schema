@@ -39,7 +39,7 @@
 //!
 //! // Create some example data by using typical SQL statements.
 //! sql_query("CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL)").execute(&conn).unwrap();
-//! sql_query("INSERT INTO users (name) VALUES ('Sean'), ('Tess')").execute(&conn).unwrap();
+//! # sql_query("INSERT INTO users (name) VALUES ('Sean'), ('Tess')").execute(&conn).unwrap();
 //!
 //! // Use diesel-dynamic-schema to create a table.
 //! let users = table("users");

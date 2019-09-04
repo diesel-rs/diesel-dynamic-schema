@@ -2,6 +2,7 @@ use table::Table;
 
 #[derive(Debug, Clone, Copy)]
 /// A database schema.
+/// This type is created by the [`schema`](fn.schema.html) function.
 pub struct Schema<T> {
     name: T,
 }

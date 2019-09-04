@@ -87,7 +87,7 @@ pub use schema::Schema;
 /// A database table.
 pub use table::Table;
 
-/// Create a new table with the given name.
+/// Create a new [`Table`](struct.Table.html) with the given name.
 ///
 /// # Example
 ///
@@ -102,7 +102,7 @@ pub fn table<T>(name: T) -> Table<T> {
     Table::new(name)
 }
 
-/// Create a new schema with the given name.
+/// Create a new [`Schema`](struct.Schema.html) with the given name.
 ///
 /// # Example
 ///

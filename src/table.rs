@@ -10,6 +10,7 @@ use dummy_expression::*;
 
 #[derive(Debug, Clone, Copy)]
 /// A database table.
+/// This type is created by the [`table`](fn.table.html) function.
 pub struct Table<T, U = T> {
     name: T,
     schema: Option<U>,

@@ -37,8 +37,7 @@ fn main() {
     // The `users` are type `std::result::Result<std::vec::Vec<(i32, std::string::String)>, diesel::result::Error>`
     let users = users.unwrap();
     for (user_id, user_name) in users {
-        let (x, y) = user;
-        println!("user id:{} name:{}", x, y);
+        println!("user id:{} name:{}", user_id, user_name);
     }
 
 }

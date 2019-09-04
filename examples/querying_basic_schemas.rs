@@ -34,7 +34,7 @@ fn main() {
     // The `ids` are type `std::result::Result<std::vec::Vec<i32>, diesel::result::Error>`.
     let ids = ids.unwrap();
     for x in ids {
-        println!("id:{}", x);
+        println!("user id:{}", x);
     }
 
 }

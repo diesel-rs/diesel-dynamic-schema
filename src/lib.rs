@@ -52,6 +52,8 @@
 //!     .load::<(i32, String)>(&conn);
 //!
 //! let results = results.unwrap();
+//! # assert_eq!(results.len(), 1);
+//! # assert_eq!(results[0].1, "Sean");
 //! for result in results {
 //!    let (x, y) = result;
 //!        println!("id:{} name:{}", x, y);

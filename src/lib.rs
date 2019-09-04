@@ -89,10 +89,6 @@ pub use table::Table;
 
 /// Create a new table with the given name.
 ///
-/// # Arguments
-///
-/// * `name` - A string slice that holds the name of the person
-///
 /// # Example
 ///
 /// ```
@@ -107,10 +103,6 @@ pub fn table<T>(name: T) -> Table<T> {
 }
 
 /// Create a new schema with the given name.
-///
-/// # Arguments
-///
-/// * `name` - A string slice that holds the name of the person
 ///
 /// # Example
 ///

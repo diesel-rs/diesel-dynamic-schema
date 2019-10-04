@@ -2,9 +2,11 @@ extern crate diesel;
 extern crate diesel_dynamic_schema;
 
 use diesel::sql_types::*;
-use diesel::sqlite::Sqlite;
 use diesel::*;
 use diesel_dynamic_schema::{schema, table};
+
+#[cfg(feature = "postgres")]
+mod dynamic_values;
 
 #[test]
 fn querying_basic_schemas() {
@@ -60,12 +62,41 @@ fn columns_used_in_where_clause() {
 }
 
 #[test]
+#[cfg(feature = "sqlite")]
 fn providing_custom_schema_name() {
     let table = schema("information_schema").table("users");
-    let sql = debug_query::<Sqlite, _>(&table);
+    let sql = debug_query::<diesel::sqlite::Sqlite, _>(&table);
     assert_eq!("`information_schema`.`users` -- binds: []", sql.to_string());
 }
 
+#[cfg(feature = "sqlite")]
 fn establish_connection() -> SqliteConnection {
     SqliteConnection::establish(":memory:").unwrap()
+}
+
+#[cfg(feature = "postgres")]
+fn establish_connection() -> PgConnection {
+    let conn = PgConnection::establish(
+        &dotenv::var("DATABASE_URL")
+            .or_else(|_| dotenv::var("PG_DATABASE_URL"))
+            .expect("Set either `DATABASE_URL` or `PG_DATABASE_URL`"),
+    )
+    .unwrap();
+
+    conn.begin_test_transaction().unwrap();
+    conn
+}
+
+#[cfg(feature = "mysql")]
+fn establish_connection() -> MysqlConnection {
+    let conn = MysqlConnection::establish(
+        &dotenv::var("DATABASE_URL")
+            .or_else(|_| dotenv::var("MYSQL_DATABASE_URL"))
+            .expect("Set either `DATABASE_URL` or `MYSQL_DATABASE_URL`"),
+    )
+    .unwrap();
+
+    conn.begin_test_transaction();
+
+    conn
 }

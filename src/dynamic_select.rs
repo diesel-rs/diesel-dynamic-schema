@@ -1,7 +1,9 @@
 use diesel::backend::Backend;
 use diesel::query_builder::{
-    AstPass, QueryFragment, QueryId, SelectClauseExpression, SelectClauseQueryFragment,
+    AstPass, QueryFragment, QueryId, SelectClauseQueryFragment,
 };
+#[cfg(feature = "postgres")]
+use diesel::query_builder::SelectClauseExpression;
 use diesel::{AppearsOnTable, Expression, QueryResult, SelectableExpression};
 use std::marker::PhantomData;
 

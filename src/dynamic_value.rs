@@ -1,8 +1,7 @@
+#[cfg(feature = "postgres")]
 use diesel::deserialize::{self, FromSql, FromSqlRow, Queryable};
-use diesel::query_builder::AstPass;
-use diesel::query_builder::QueryFragment;
+#[cfg(feature = "postgres")]
 use diesel::row::Row;
-use diesel::*;
 use diesel::{QueryId, SqlType};
 use std::ops::Index;
 
@@ -22,13 +21,13 @@ pub struct NamedField<I> {
 }
 
 impl<I> DynamicRow<I> {
-    fn get(&self, index: usize) -> Option<&I> {
+    pub fn get(&self, index: usize) -> Option<&I> {
         self.values.get(index)
     }
 }
 
 impl<I> DynamicRow<NamedField<I>> {
-    fn get_by_name<S: AsRef<str>>(&self, name: S) -> Option<&I> {
+    pub fn get_by_name<S: AsRef<str>>(&self, name: S) -> Option<&I> {
         self.values
             .iter()
             .find(|f| f.name == name.as_ref())
@@ -75,7 +74,10 @@ where
         Ok(DynamicRow {
             values: (0..row.column_count())
                 .map(|_| {
-                    let name = row.column_name().into();
+                    let name = row
+                        .column_name()
+                        .ok_or_else(|| "Request name for an unnamed column")?
+                        .into();
                     Ok(NamedField {
                         name,
                         value: I::from_sql(row.take())?,

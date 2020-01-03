@@ -1,9 +1,8 @@
 use diesel::backend::Backend;
 use diesel::query_builder::{
-    AstPass, QueryFragment, QueryId, SelectClauseQueryFragment,
+    AstPass, IntoBoxedSelectClause, QueryFragment, QueryId, SelectClauseExpression,
+    SelectClauseQueryFragment,
 };
-#[cfg(feature = "postgres")]
-use diesel::query_builder::SelectClauseExpression;
 use diesel::{AppearsOnTable, Expression, QueryResult, SelectableExpression};
 use std::marker::PhantomData;
 
@@ -76,5 +75,17 @@ where
             s.walk_ast(pass.reborrow())?;
         }
         Ok(())
+    }
+}
+
+impl<'a, DB, QS> IntoBoxedSelectClause<'a, DB, QS> for DynamicSelectClause<'a, DB, QS>
+where
+    Self: 'a + QueryFragment<DB> + SelectClauseExpression<QS>,
+    DB: Backend,
+{
+    type SqlType = <Self as SelectClauseExpression<QS>>::SelectClauseSqlType;
+
+    fn into_boxed(self, _source: &QS) -> Box<dyn QueryFragment<DB> + 'a> {
+        Box::new(self)
     }
 }

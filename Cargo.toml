@@ -40,5 +40,5 @@ mysql = ["diesel/mysql"]
 
 
 [patch.crates-io]
-diesel = {git = "https://github.com/GiGainfosystems/diesel", rev = "25233a542dd8b5f4b14956d599fc2dcefcf718c4"}
-diesel_derives = {git = "https://github.com/GiGainfosystems/diesel", rev = "25233a542dd8b5f4b14956d599fc2dcefcf718c4"}
+diesel = {git = "https://github.com/GiGainfosystems/diesel", rev = "5a93ca65353e1f118cbb3c8676679a777d38774c"}
+diesel_derives = {git = "https://github.com/GiGainfosystems/diesel", rev = "5a93ca65353e1f118cbb3c8676679a777d38774c"}

@@ -3,7 +3,9 @@ use diesel::query_builder::{
     AstPass, IntoBoxedSelectClause, QueryFragment, QueryId, SelectClauseExpression,
     SelectClauseQueryFragment,
 };
-use diesel::{AppearsOnTable, Expression, QueryResult, SelectableExpression};
+use diesel::{
+    sql_types::HasSqlType, AppearsOnTable, Expression, QueryResult, SelectableExpression,
+};
 use std::marker::PhantomData;
 
 #[allow(missing_debug_implementations)]
@@ -33,8 +35,10 @@ impl<'a, DB, QS> DynamicSelectClause<'a, DB, QS> {
     }
 }
 
-#[cfg(feature = "postgres")]
-impl<'a, QS> Expression for DynamicSelectClause<'a, diesel::pg::Pg, QS> {
+impl<'a, QS, DB> Expression for DynamicSelectClause<'a, DB, QS>
+where
+    DB: Backend + HasSqlType<crate::dynamic_value::Any>,
+{
     type SqlType = crate::dynamic_value::Any;
 }
 
@@ -45,7 +49,6 @@ impl<'a, DB, QS> SelectableExpression<QS> for DynamicSelectClause<'a, DB, QS> wh
 {
 }
 
-#[cfg(feature = "postgres")]
 impl<'a, QS, DB> SelectClauseExpression<QS> for DynamicSelectClause<'a, DB, QS> {
     type SelectClauseSqlType = crate::dynamic_value::Any;
 }

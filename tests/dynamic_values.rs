@@ -20,7 +20,7 @@ impl FromSql<Any, diesel::pg::Pg> for MyDynamicValue {
 
         const VARCHAR_OID: NonZeroU32 = unsafe { NonZeroU32::new_unchecked(1043) };
         const TEXT_OID: NonZeroU32 = unsafe { NonZeroU32::new_unchecked(25) };
-        const INTEGER_OID: NonZeroU32 = unsafe { NonZeroU32::new_unchecked(16) };
+        const INTEGER_OID: NonZeroU32 = unsafe { NonZeroU32::new_unchecked(23) };
 
         if let Some(value) = value {
             match value.get_oid() {

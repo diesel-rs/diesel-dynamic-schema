@@ -145,3 +145,21 @@ impl<'a, I> Index<&'a str> for DynamicRow<NamedField<I>> {
             .expect("Field not found")
     }
 }
+
+impl<V> IntoIterator for DynamicRow<V> {
+    type Item = V;
+    type IntoIter = <Vec<V> as IntoIterator>::IntoIter;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.values.into_iter()
+    }
+}
+
+impl<'a, V> IntoIterator for &'a DynamicRow<V> {
+    type Item = &'a V;
+    type IntoIter = <&'a Vec<V> as IntoIterator>::IntoIter;
+
+    fn into_iter(self) -> Self::IntoIter {
+        (&self.values).into_iter()
+    }
+}

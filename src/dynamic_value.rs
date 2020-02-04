@@ -26,6 +26,18 @@ pub struct NamedField<I> {
     pub value: I,
 }
 
+impl<I> Clone for NamedField<I>
+where
+    I: Clone,
+{
+    fn clone(&self) -> Self {
+        Self {
+            name: self.name.clone(),
+            value: self.value.clone(),
+        }
+    }
+}
+
 impl<I> DynamicRow<I> {
     pub fn get(&self, index: usize) -> Option<&I> {
         self.values.get(index)

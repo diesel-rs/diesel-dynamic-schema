@@ -69,3 +69,12 @@ fn providing_custom_schema_name() {
 fn establish_connection() -> SqliteConnection {
     SqliteConnection::establish(":memory:").unwrap()
 }
+
+#[test]
+fn display_for_columns_and_tables() {
+    let users = table("users");
+    let id = users.column::<Integer, _>("id");
+
+    assert_eq!(format!("{}", users), "users");
+    assert_eq!(format!("{}", id), "id");
+}

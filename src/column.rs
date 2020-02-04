@@ -3,6 +3,7 @@ use diesel::expression::{AppearsOnTable, Expression, NonAggregate, SelectableExp
 use diesel::prelude::*;
 use diesel::query_builder::*;
 use std::borrow::Borrow;
+use std::fmt;
 use std::marker::PhantomData;
 
 #[derive(Debug, Clone, Copy)]
@@ -18,7 +19,7 @@ impl<T, U, ST> Column<T, U, ST> {
     pub(crate) fn new(table: T, name: U) -> Self {
         Self {
             table,
-            name: name,
+            name,
             _sql_type: PhantomData,
         }
     }
@@ -51,5 +52,14 @@ where
         out.push_sql(".");
         out.push_identifier(self.name.borrow())?;
         Ok(())
+    }
+}
+
+impl<T, U, ST> fmt::Display for Column<T, U, ST>
+where
+    U: fmt::Display,
+{
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.name)
     }
 }

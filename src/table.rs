@@ -4,6 +4,7 @@ use diesel::prelude::*;
 use diesel::query_builder::*;
 use diesel::query_source::QuerySource;
 use std::borrow::Borrow;
+use std::fmt;
 
 use column::Column;
 use dummy_expression::*;
@@ -103,4 +104,13 @@ where
 impl<T, U> QueryId for Table<T, U> {
     type QueryId = ();
     const HAS_STATIC_QUERY_ID: bool = false;
+}
+
+impl<T, U> fmt::Display for Table<T, U>
+where
+    T: fmt::Display,
+{
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.name)
+    }
 }

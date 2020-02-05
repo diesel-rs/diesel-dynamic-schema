@@ -6,7 +6,7 @@ license = "MIT OR Apache-2.0"
 autotests = false
 
 [dependencies]
-diesel = "1.4.2"
+diesel = { version = "1.4.2", default-features = false }
 
 [dev-dependencies]
 dotenv = "0.14"
@@ -33,7 +33,6 @@ harness = true
 #required-features = ["diesel/sqlite"]
 
 [features]
-default = ["postgres", "sqlite", "mysql"]
 postgres = ["diesel/postgres"]
 sqlite = ["diesel/sqlite"]
 mysql = ["diesel/mysql"]

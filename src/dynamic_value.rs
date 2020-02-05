@@ -1,6 +1,7 @@
 use diesel::deserialize::{self, FromSql, FromSqlRow, Queryable};
 use diesel::row::Row;
 use diesel::{backend::Backend, QueryId, SqlType};
+use std::iter::FromIterator;
 use std::ops::Index;
 
 #[derive(Debug, Clone, Copy, Default, QueryId, SqlType)]
@@ -26,6 +27,17 @@ pub struct NamedField<I> {
     pub value: I,
 }
 
+impl<I> FromIterator<I> for DynamicRow<I> {
+    fn from_iter<T>(iter: T) -> Self
+    where
+        T: IntoIterator<Item = I>,
+    {
+        DynamicRow {
+            values: iter.into_iter().collect(),
+        }
+    }
+}
+
 impl<I> DynamicRow<I> {
     pub fn get(&self, index: usize) -> Option<&I> {
         self.values.get(index)
@@ -49,11 +61,9 @@ where
     const FIELDS_NEEDED: usize = 1;
 
     fn build_from_row<T: Row<diesel::pg::Pg>>(row: &mut T) -> deserialize::Result<Self> {
-        Ok(DynamicRow {
-            values: (0..row.column_count())
-                .map(|_| I::from_sql(row.take()))
-                .collect::<deserialize::Result<_>>()?,
-        })
+        (0..row.column_count())
+            .map(|_| I::from_sql(row.take()))
+            .collect::<deserialize::Result<_>>()
     }
 }
 
@@ -65,11 +75,9 @@ where
     const FIELDS_NEEDED: usize = 1;
 
     fn build_from_row<T: Row<diesel::sqlite::Sqlite>>(row: &mut T) -> deserialize::Result<Self> {
-        Ok(DynamicRow {
-            values: (0..row.column_count())
-                .map(|_| I::from_sql(row.take()))
-                .collect::<deserialize::Result<_>>()?,
-        })
+        (0..row.column_count())
+            .map(|_| I::from_sql(row.take()))
+            .collect::<deserialize::Result<_>>()
     }
 }
 
@@ -81,11 +89,9 @@ where
     const FIELDS_NEEDED: usize = 1;
 
     fn build_from_row<T: Row<diesel::mysql::Mysql>>(row: &mut T) -> deserialize::Result<Self> {
-        Ok(DynamicRow {
-            values: (0..row.column_count())
-                .map(|_| I::from_sql(row.take()))
-                .collect::<deserialize::Result<_>>()?,
-        })
+        (0..row.column_count())
+            .map(|_| I::from_sql(row.take()))
+            .collect::<deserialize::Result<_>>()
     }
 }
 

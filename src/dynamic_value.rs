@@ -15,12 +15,12 @@ impl diesel::sql_types::HasSqlType<Any> for diesel::mysql::Mysql {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct DynamicRow<I> {
     values: Vec<I>,
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct NamedField<I> {
     pub name: String,
     pub value: I,

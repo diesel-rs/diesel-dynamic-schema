@@ -165,3 +165,68 @@ fn dynamic_query() {
     assert_eq!(actual_data[0][2], MyDynamicValue::Null);
     assert_eq!(actual_data[1][2], MyDynamicValue::Null);
 }
+
+#[test]
+fn dynamic_query_2() {
+    let connection = super::establish_connection();
+    super::create_user_table(&connection);
+    sql_query("INSERT INTO users (name) VALUES ('Sean'), ('Tess')")
+        .execute(&connection)
+        .unwrap();
+
+    let actual_data: Vec<DynamicRow<NamedField<MyDynamicValue>>> =
+        sql_query("SELECT id, name, hair_color FROM users")
+            .load(&connection)
+        .unwrap();
+
+    dbg!(&actual_data);
+
+    assert_eq!(
+        actual_data[0]["name"],
+        MyDynamicValue::String("Sean".into())
+    );
+    assert_eq!(
+        actual_data[0][1],
+        NamedField {
+            name: "name".into(),
+            value: MyDynamicValue::String("Sean".into())
+        }
+    );
+    assert_eq!(
+        actual_data[1]["name"],
+        MyDynamicValue::String("Tess".into())
+    );
+    assert_eq!(
+        actual_data[1][1],
+        NamedField {
+            name: "name".into(),
+            value: MyDynamicValue::String("Tess".into())
+        }
+    );
+    assert_eq!(actual_data[0]["hair_color"], MyDynamicValue::Null);
+    assert_eq!(
+        actual_data[0][2],
+        NamedField {
+            name: "hair_color".into(),
+            value: MyDynamicValue::Null
+        }
+    );
+    assert_eq!(actual_data[1]["hair_color"], MyDynamicValue::Null);
+    assert_eq!(
+        actual_data[1][2],
+        NamedField {
+            name: "hair_color".into(),
+            value: MyDynamicValue::Null
+        }
+    );
+
+    let actual_data: Vec<DynamicRow<MyDynamicValue>> =
+        sql_query("SELECT id, name, hair_color FROM users")
+            .load(&connection)
+            .unwrap();
+
+    assert_eq!(actual_data[0][1], MyDynamicValue::String("Sean".into()));
+    assert_eq!(actual_data[1][1], MyDynamicValue::String("Tess".into()));
+    assert_eq!(actual_data[0][2], MyDynamicValue::Null);
+    assert_eq!(actual_data[1][2], MyDynamicValue::Null);
+}

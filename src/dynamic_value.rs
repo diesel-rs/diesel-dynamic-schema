@@ -1,5 +1,5 @@
-use diesel::deserialize::{self, FromSql, FromSqlRow, Queryable};
-use diesel::row::Row;
+use diesel::deserialize::{self, FromSql, FromSqlRow, Queryable, QueryableByName};
+use diesel::row::{NamedRow, Row};
 use diesel::{backend::Backend, QueryId, SqlType};
 use std::iter::FromIterator;
 use std::ops::Index;
@@ -104,6 +104,63 @@ where
 
     fn build(row: Self::Row) -> Self {
         row
+    }
+}
+
+impl<I, DB> QueryableByName<DB> for DynamicRow<NamedField<I>>
+where
+    DB: Backend,
+    I: FromSql<Any, DB>,
+{
+    fn build<R: NamedRow<DB>>(row: &R) -> deserialize::Result<Self> {
+        row.field_names()
+            .into_iter()
+            .map(|name| {
+                Ok(NamedField {
+                    name: name.to_owned(),
+                    value: row.get::<Any, I>(name)?,
+                })
+            })
+            .collect()
+    }
+}
+
+#[cfg(feature = "postgres")]
+impl<I> QueryableByName<diesel::pg::Pg> for DynamicRow<I>
+where
+    I: FromSql<Any, diesel::pg::Pg>,
+{
+    fn build<R: NamedRow<diesel::pg::Pg>>(row: &R) -> deserialize::Result<Self> {
+        row.field_names()
+            .into_iter()
+            .map(|name| row.get::<Any, I>(name))
+            .collect()
+    }
+}
+
+#[cfg(feature = "sqlite")]
+impl<I> QueryableByName<diesel::sqlite::Sqlite> for DynamicRow<I>
+where
+    I: FromSql<Any, diesel::sqlite::Sqlite>,
+{
+    fn build<R: NamedRow<diesel::sqlite::Sqlite>>(row: &R) -> deserialize::Result<Self> {
+        row.field_names()
+            .into_iter()
+            .map(|name| row.get::<Any, I>(name))
+            .collect()
+    }
+}
+
+#[cfg(feature = "mysql")]
+impl<I> QueryableByName<diesel::mysql::Mysql> for DynamicRow<I>
+where
+    I: FromSql<Any, diesel::mysql::Mysql>,
+{
+    fn build<R: NamedRow<diesel::mysql::Mysql>>(row: &R) -> deserialize::Result<Self> {
+        row.field_names()
+            .into_iter()
+            .map(|name| row.get::<Any, I>(name))
+            .collect()
     }
 }
 

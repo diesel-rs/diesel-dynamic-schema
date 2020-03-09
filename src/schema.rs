@@ -12,6 +12,10 @@ impl<T> Schema<T> {
         Self { name }
     }
 
+    pub fn name(&self) -> &T {
+        &self.name
+    }
+
     /// Create a table with this schema.
     pub fn table<U>(&self, name: U) -> Table<U, T>
     where

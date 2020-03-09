@@ -22,6 +22,14 @@ impl<T, U, ST> Column<T, U, ST> {
             _sql_type: PhantomData,
         }
     }
+
+    pub fn table(&self) -> &T {
+        &self.table
+    }
+
+    pub fn name(&self) -> &U {
+        &self.name
+    }
 }
 
 impl<T, U, ST> QueryId for Column<T, U, ST> {

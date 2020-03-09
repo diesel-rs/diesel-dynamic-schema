@@ -21,6 +21,10 @@ impl<T, U> Table<T, U> {
         Self { name, schema: None }
     }
 
+    pub fn name(&self) -> &T {
+        &self.name
+    }
+
     pub(crate) fn with_schema(schema: U, name: T) -> Self {
         Self {
             name,

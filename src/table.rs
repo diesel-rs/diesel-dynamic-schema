@@ -21,6 +21,7 @@ impl<T, U> Table<T, U> {
         Self { name, schema: None }
     }
 
+    /// Gets the name of the column, as especified on creation.
     pub fn name(&self) -> &T {
         &self.name
     }
@@ -32,7 +33,7 @@ impl<T, U> Table<T, U> {
         }
     }
 
-    /// Create a column with this table.
+    /// Creates a column with this table.
     pub fn column<ST, V>(&self, name: V) -> Column<Self, V, ST>
     where
         Self: Clone,

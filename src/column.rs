@@ -23,10 +23,12 @@ impl<T, U, ST> Column<T, U, ST> {
         }
     }
 
+    /// Gets a reference to the table of the column.
     pub fn table(&self) -> &T {
         &self.table
     }
 
+    /// Gets the name of the column, as provided on creation.
     pub fn name(&self) -> &U {
         &self.name
     }

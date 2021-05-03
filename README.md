@@ -4,7 +4,7 @@ Query schemas not known at compile time with Diesel
 ===================================================
 
 
-** This code is merged into the main diesel repository **
+**This code is merged into the main diesel repository**
 
 [![Build Status](https://travis-ci.org/diesel-rs/diesel.svg)](https://travis-ci.org/diesel-rs/diesel-dynamic-schema)
 [![Gitter](https://badges.gitter.im/diesel-rs/diesel.svg)](https://gitter.im/diesel-rs/diesel?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
